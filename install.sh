@@ -1,20 +1,16 @@
 #!/bin/bash
 
-# Обновление списка пакетов
-echo "Обновление списка пакетов..."
+echo "Updating..."
 sudo apt-get update
 
-# Обновление установленных пакетов
-echo "Обновление установленных пакетов..."
+echo "Upgrading..."
 sudo apt-get upgrade -y
 
-# Установка новых пакетов
-echo "Установка новых пакетов..."
+echo "Installing new packages..."
 sudo apt-get install -y git make gcc python3 python3-pip ser2net swig python3-dev python3-setuptools 
 
-# Очистка кеша и удаление ненужных пакетов
-echo "Очистка кеша и удаление ненужных пакетов..."
+echo "Cleaning..."
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y
 
-echo "Обновление и установка пакетов завершена!"
+echo "Done"
