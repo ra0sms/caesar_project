@@ -1,0 +1,17 @@
+[Unit]  
+Description=Library  
+After=multi-user.target  
+  
+[Service]  
+User=root  
+Group=root  
+Type=simple  
+  
+WorkingDirectory=/home/pi/caesar_project
+ExecStart=/home/pi/caesar_project/ptt_server.py  
+Restart=always  
+RestartSec=10  
+  
+[Install]  
+WantedBy=multi-user.target
+
