@@ -19,7 +19,7 @@ Serial port - 19200 kb/s, 8N1
 
 ## Installation
 
-Armbian img - https://ra0sms.com/wp-content/uploads/2025/03/Armbian_25.5.0_community.gz
+Armbian img - https://ra0sms.com/wp-content/uploads/2025/03/Armbian_community_25.5.0_minimal.tar.gz
 
 
 
