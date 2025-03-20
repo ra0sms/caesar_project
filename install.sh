@@ -27,4 +27,13 @@ systemctl enable ptt_server.service
 systemctl status ptt_server.service
 echo -e "${GREEN}ptt_server.service started and enabled${NC}"
 
+echo -e "${GREEN}Config cw_server.service...${NC}"
+cp ./cw_server.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl start cw_server.service
+systemctl enable cw_server.service
+systemctl status cw_server.service
+echo -e "${GREEN}cw_server.service started and enabled${NC}"
+
+
 echo -e "${GREEN}Done${NC}"
