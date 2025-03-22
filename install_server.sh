@@ -19,6 +19,17 @@ apt-get autoclean -y
 echo -e "${GREEN}Config ser2net...${NC}"
 ./create_ser2net_yaml.sh
 
+echo -e "${GREEN}Installing wiringPO...${NC}"
+cd wiringOP/
+./build clean
+./build
+cd ../
+cd wiringOP-Python/
+python3 generate-bindings.py > bindings.i
+python3 setup.py install
+gpio readall
+
+
 echo -e "${GREEN}Config ptt_server.service...${NC}"
 cp ./ptt_server.service /etc/systemd/system/
 systemctl daemon-reload
