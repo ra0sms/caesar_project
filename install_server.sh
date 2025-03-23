@@ -49,5 +49,13 @@ systemctl enable cw_server.service
 systemctl status cw_server.service
 echo -e "${GREEN}cw_server.service started and enabled${NC}"
 
+echo -e "${GREEN}Config check_client.service...${NC}"
+cp ./check_client.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl start check_client.service
+systemctl enable check_client.service
+systemctl status check_client.service
+echo -e "${GREEN}check_client.service started and enabled${NC}"
+
 
 echo -e "${GREEN}Done. You need to reboot (sudo reboot).${NC}"
