@@ -16,6 +16,9 @@ echo -e "${GREEN}Cleaning...${NC}"
 apt-get autoremove -y
 apt-get autoclean -y
 
+echo -e "${GREEN}Config devices...${NC}"
+echo "overlays=analog-codec tve uart1 uart2 uart3 usbhost0 usbhost1 usbhost2 usbhost3 w1-gpio" | sudo tee -a /boot/armbianEnv.txt > /dev/null
+
 echo -e "${GREEN}Config ser2net...${NC}"
 ./create_ser2net_yaml.sh
 
@@ -47,4 +50,4 @@ systemctl status cw_server.service
 echo -e "${GREEN}cw_server.service started and enabled${NC}"
 
 
-echo -e "${GREEN}Done${NC}"
+echo -e "${GREEN}Done. You need to reboot (sudo reboot).${NC}"
