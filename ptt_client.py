@@ -1,4 +1,4 @@
-!/usr/bin/python3
+#!/usr/bin/python3
 from wiringpi import GPIO
 import wiringpi
 import socket
