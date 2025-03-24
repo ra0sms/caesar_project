@@ -4,5 +4,6 @@
 /usr/bin/amixer -c 0 cset numid=3 31
 
 # Audio stream receive
-socat -u udp-recv:5000 - | aplay -f S16_LE -r 44100 -c 1
+gst-launch-1.0   udpsrc port=5000 caps="application/x-rtp,payload=96" !   rtpjitterbuffer latency=200 drop-on-latency=true !   queue max-size-time=40000000 leaky=downstream !   rtpopusdepay !   opusdec plc=true !   queue !   audioconvert !   queue !   autoaudiosink sync=false
+
 

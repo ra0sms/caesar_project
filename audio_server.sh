@@ -20,4 +20,5 @@ fi
 /usr/bin/amixer -c 0 cset numid=13 off
 
 # Audio stream
-arecord -D hw:0,0 -f S16_LE -r 48000 -c 1 --buffer-size=2048 --period-size=512 | socat - udp-sendto:$IP_ADDRESS:5000
+gst-launch-1.0   alsasrc device=hw:0 !   audioconvert !   audioresample !   capsfilter caps="audio/x-raw,rate=48000,channels=1,format=S16LE" !   opusenc bitrate=16000 frame-size=20 complexity=5 !   rtpopuspay !   udpsink host=$IP_ADDRESS port=5000 sync=false
+
