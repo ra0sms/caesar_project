@@ -39,10 +39,10 @@ try:
             data = data.decode().strip()
 
             if data == '1':
-                print("CW ON")
+                #print("CW ON")
                 wiringpi.digitalWrite(CW_PIN, GPIO.HIGH)
             elif data == '0':
-                print("CW OFF")
+                #print("CW OFF")
                 wiringpi.digitalWrite(CW_PIN, GPIO.LOW)
             else:
                 print(f"Unknown command: {data}")

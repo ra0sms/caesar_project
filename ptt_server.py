@@ -39,10 +39,10 @@ try:
             data = data.decode().strip()
 
             if data == '1':
-                print("PTT ON")
+                #print("PTT ON")
                 wiringpi.digitalWrite(PTT_PIN, GPIO.HIGH)
             elif data == '0':
-                print("PTT OFF")
+                #print("PTT OFF")
                 wiringpi.digitalWrite(PTT_PIN, GPIO.LOW)
             else:
                 print(f"Unknown command: {data}")
