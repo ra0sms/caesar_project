@@ -1,0 +1,16 @@
+[Unit]
+Description=Audio client
+After=multi-user.target
+
+[Service]
+User=root
+Group=root
+Type=simple
+
+WorkingDirectory=/home/pi/caesar_project
+ExecStart=/home/pi/caesar_project/audio_client.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
