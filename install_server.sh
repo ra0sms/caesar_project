@@ -10,7 +10,8 @@ echo -e "${GREEN}Upgrading...${NC}"
 apt-get upgrade -y
 
 echo -e "${GREEN}Installing new packages...${NC}"
-apt-get install -y git make gcc python3 python3-pip ser2net swig python3-dev python3-setuptools mc socat 
+apt-get install -y git make gcc python3 python3-pip ser2net swig python3-dev python3-setuptools mc socat gstreamer1.0-plugins-base gstreamer1.0-alsa gstreamer1.0-tools gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav
+
 
 echo -e "${GREEN}Cleaning...${NC}"
 apt-get autoremove -y
