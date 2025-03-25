@@ -28,7 +28,7 @@ def main():
         print("Using default IP: 192.168.0.201")
         server_ip = '192.168.0.201'
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    button_state = wiringpi.digitalRead(PTT_PIN)
+    button_state =  wiringpi.digitalRead(PTT_PIN)
     try:
         print(f"PTT server is running {server_ip}:{SERVER_PORT}")
         print(f"Starting button state: {button_state}")
@@ -42,8 +42,9 @@ def main():
                 
                 if current_state != button_state:
                     button_state = current_state
+                    send_value = 1 if button_state == 0 else 0
                     print(f"Current state: {button_state}")
-                    sock.sendto(str(button_state).encode(), (server_ip, SERVER_PORT))
+                    sock.sendto(str(send_value).encode(), (server_ip, SERVER_PORT))
             
             time.sleep(0.01)
             
