@@ -1,0 +1,16 @@
+[Unit]  
+Description=UDP ping responce from server 
+After=multi-user.target  
+  
+[Service]  
+User=root  
+Group=root  
+Type=simple  
+  
+WorkingDirectory=/home/pi/caesar_project
+ExecStart=/home/pi/caesar_project/server_ping_responce.py  
+Restart=always  
+RestartSec=5  
+  
+[Install]  
+WantedBy=multi-user.target
