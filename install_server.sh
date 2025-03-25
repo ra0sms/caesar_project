@@ -16,6 +16,7 @@ apt-get install -y git make gcc python3 python3-pip ser2net swig python3-dev pyt
 echo -e "${GREEN}Cleaning...${NC}"
 apt-get autoremove -y
 apt-get autoclean -y
+usermod -a -G dialout pi
 
 echo -e "${GREEN}Config devices...${NC}"
 rm /boot/armbianEnv.txt

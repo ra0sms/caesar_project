@@ -8,7 +8,7 @@
 * `UDP 5001` - PTT control
 * `UDP 5002` - CW control
 * `UDP 5003` - check connection from server to client
-* `UDP 5004` - check connection from clientt to server
+* `UDP 5004` - check connection from client to server
 * `UDP 3001` - cat control via USB-TTL (`ttyUSB0`)
 * `UDP 3002` - cat control via internal serial port (`ttyS1`)
 
