@@ -1,5 +1,5 @@
 [Unit]  
-Description=UDP ping client  
+Description=UDP ping responce  
 After=multi-user.target  
   
 [Service]  
@@ -8,7 +8,7 @@ Group=root
 Type=simple  
   
 WorkingDirectory=/home/pi/caesar_project
-ExecStart=/home/pi/caesar_project/client_ping.py  
+ExecStart=/home/pi/caesar_project/client_ping_responce.py  
 Restart=always  
 RestartSec=5  
   
