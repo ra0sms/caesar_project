@@ -37,8 +37,8 @@ connection: &con1096
       kickolduser: true
       telnet-brk-on-sync: true
     connector: serialdev,
-              /dev/ttyS1,
-              19200n81,local
+              /dev/ttyUSB1,
+              1200n82,local
 "
 
 # Сохраняем конфигурацию в файл
