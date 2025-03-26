@@ -4,7 +4,8 @@
 
 ## Ports
 
-* `UDP 5000` - Audio stream
+* `UDP 5000` - Audio stream from server to client
+* `UDP 5002` - Audio stream from client to server
 * `UDP 5001` - PTT control
 * `UDP 5003` - check connection from server to client
 * `UDP 5004` - check connection from client to server
