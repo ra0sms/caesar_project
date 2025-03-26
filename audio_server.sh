@@ -20,5 +20,5 @@ fi
 /usr/bin/amixer -c 0 cset numid=13 off
 
 # Audio stream
-gst-launch-1.0   alsasrc device=hw:0 !   audioconvert !   audioresample !   capsfilter caps="audio/x-raw,rate=48000,channels=1,format=S16LE" !   opusenc bitrate=24000 frame-size=20 complexity=5 !   rtpopuspay !   udpsink host=$IP_ADDRESS port=5000 sync=false
+gst-launch-1.0   alsasrc device=hw:0 !   audioconvert !   audioresample quality=1 !   capsfilter caps="audio/x-raw,rate=48000,channels=1,format=S16LE" !   opusenc bitrate=24000 frame-size=10 complexity=1 !   rtpopuspay !   udpsink host=$IP_ADDRESS port=5000 sync=false
 
