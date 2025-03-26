@@ -12,6 +12,7 @@
 * `UDP 3002` - WinKeyer control via USB-TTL (`ttyUSB1`)
 
 Serial port for CAT - 19200 kb/s, 8N1
+
 Serial port for WinKeyer - 1200 kb/s, 8N2
 
 ## Files
@@ -26,6 +27,7 @@ Serial port for WinKeyer - 1200 kb/s, 8N2
 ## Orange Pi zero pinout
 
 wPi `pin 11` - LED "Connection"
+
 wPi `pin 12` - PTT input/output
 
 ![Orange-Pi-Zero-Pinout](docs/Orange-Pi-Zero-Pinout.png)
