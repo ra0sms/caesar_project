@@ -26,7 +26,7 @@ connection: &con0096
       kickolduser: true
       telnet-brk-on-sync: true
     connector: serialdev,
-              /dev/ttyUSB0,
+              /dev/ttyCAT,
               19200n81,local
 
 connection: &con1096
@@ -37,7 +37,7 @@ connection: &con1096
       kickolduser: true
       telnet-brk-on-sync: true
     connector: serialdev,
-              /dev/ttyUSB1,
+              /dev/ttyWK,
               1200n82,local
 "
 
