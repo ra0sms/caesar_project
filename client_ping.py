@@ -3,6 +3,7 @@ import socket
 import time
 from wiringpi import GPIO
 import wiringpi
+import os
 
 CONN_PIN = 11
 UDP_PORT = 5003
@@ -43,13 +44,19 @@ def check_udp_availability(ip_address):
 def monitor_ip(ip_address, check_interval):
     wiringpi.wiringPiSetup()
     wiringpi.pinMode(CONN_PIN, wiringpi.OUTPUT)
+    need_ser2net_reboot = False
     while True:
         if check_udp_availability(ip_address):
             print(f"Client {ip_address} is online")
             wiringpi.digitalWrite(CONN_PIN, GPIO.HIGH)
+            if need_ser2net_reboot:
+                os.system("systemctl restart ser2net.service")
+                print(f"ser2net service rebooted")
+                need_ser2net_reboot = False
         else:
             print(f"Client {ip_address} is offline")
             wiringpi.digitalWrite(CONN_PIN, GPIO.LOW)
+            need_ser2net_reboot = True
         
         time.sleep(check_interval)
 
