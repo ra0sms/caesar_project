@@ -52,6 +52,8 @@ def monitor_ip(ip_address, check_interval):
             if need_ser2net_reboot:
                 os.system("systemctl restart ser2net.service")
                 print(f"ser2net service rebooted")
+                os.system("systemctl restart ptt_server.service")
+                print(f"ptt_server service rebooted")
                 need_ser2net_reboot = False
         else:
             print(f"Client {ip_address} is offline")

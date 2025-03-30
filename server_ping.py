@@ -3,6 +3,7 @@ import socket
 import time
 from wiringpi import GPIO
 import wiringpi
+import os
 
 CONN_PIN = 11
 UDP_PORT = 5004
@@ -43,13 +44,19 @@ def check_udp_availability(ip_address):
 def monitor_ip(ip_address, check_interval):
     wiringpi.wiringPiSetup()
     wiringpi.pinMode(CONN_PIN, wiringpi.OUTPUT)
+    need_ptt_service_reboot = False
     while True:
         if check_udp_availability(ip_address):
             print(f"Client {ip_address} is online")
             wiringpi.digitalWrite(CONN_PIN, GPIO.HIGH)
+            if need_ptt_service_reboot:
+                os.system("systemctl restart ptt_client.service")
+                print(f"ptt_client service rebooted")
+                need_ptt_service_reboot = False
         else:
             print(f"Client {ip_address} is offline")
             wiringpi.digitalWrite(CONN_PIN, GPIO.LOW)
+            need_ptt_service_reboot = True
         
         time.sleep(check_interval)
 
