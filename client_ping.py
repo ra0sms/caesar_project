@@ -8,7 +8,7 @@ import os
 CONN_PIN = 11
 UDP_PORT = 5003
 TIMEOUT = 1.0
-CHECK_INTERVAL = 1
+CHECK_INTERVAL = 0.3
 MAGIC_PHRASE = b"PING_RESPONSE"
 
 def read_ip_from_file(file_path):
