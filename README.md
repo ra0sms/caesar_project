@@ -31,6 +31,12 @@ wPi `pin 11` - LED "Connection"
 
 wPi `pin 12` - PTT input/output
 
+![Orange-Pi-Zero-Pinout](docs/caesar_diagram_overview.jpg)
+
+![Orange-Pi-Zero-Pinout](docs/caesar_diagram_server.jpg)
+
+![Orange-Pi-Zero-Pinout](docs/caesar_diagram_client.jpg)
+
 ![Orange-Pi-Zero-Pinout](docs/Orange-Pi-Zero-Pinout.png)
 
 ![orange_pi_gpio_readall](docs/orange_pi_gpio_readall.png)
