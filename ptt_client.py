@@ -7,7 +7,7 @@ import time
 CONFIG_FILE = 'server_ip.cfg'
 SERVER_PORT = 5001
 PTT_PIN = 12
-DEBOUNCE_DELAY = 0.05
+DEBOUNCE_DELAY = 0.01
 
 def read_ip_from_file(filename):
     try:
