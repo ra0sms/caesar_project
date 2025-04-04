@@ -99,9 +99,11 @@ Serial port for WinKeyer - 1200 kb/s, 8N2
 You can create it with BalenaEltcher sotware - https://etcher.balena.io/  
 After first Armbian starting (or ssh connection) you need to create user ```pi``` (don't forget about password)  
 * All settings can be done via ```ssh``` connection (putty, for example, if you use Windows OS)  
-* Connect to your orange pi via ```ssh```. You wiil be in ```HOME``` directory (```/home/pi/```).  
+* Connect to your orange pi via ```ssh```. You will be in ```HOME``` directory (```/home/pi/```).  
 * Clone ```caesar_project``` from GitHub:  
    ``` bash
+      sudo apt update
+      sudo apt install git
       git clone https://github.com/ra0sms/caesar_project.git 
       cd caesar_project
    ```  
