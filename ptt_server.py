@@ -21,7 +21,6 @@ def read_allowed_ip(filename):
 
 ALLOWED_IP = read_allowed_ip('client_ip.cfg') 
 
-# UDP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((SERVER_IP, SERVER_PORT))
 
@@ -39,10 +38,8 @@ try:
             data = data.decode().strip()
 
             if data == '1':
-                #print("PTT ON")
                 wiringpi.digitalWrite(PTT_PIN, GPIO.HIGH)
             elif data == '0':
-                #print("PTT OFF")
                 wiringpi.digitalWrite(PTT_PIN, GPIO.LOW)
             else:
                 print(f"Unknown command: {data}")
