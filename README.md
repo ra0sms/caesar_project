@@ -25,8 +25,8 @@ The transceiver connects to the server via an audio interface (requiring both au
 Additionally, the PTT output of the server must be connected to the PTT input (TX GND) of the transceiver. On the Orange Pi Zero, this is Pin `wPI 12`. The PTT connection can be implemented using a transistor switch or an optocoupler.  
 #### USB Connections
 The Orange Pi Zero’s USB ports must be used to connect:
-* The transceiver’s CAT interface  
-* The Winkeyer telegraph key (e.g., [NanoKeyer](https://ra0sms.com/cw-key-k3ng/)).  
+* The transceiver’s CAT interface  (e.g. [Icom/Xiegu cat interface](https://github.com/ra0sms/CAT_interface_for_Icom_Xiegu))
+* The Winkeyer telegraph key (e.g., [NanoKeyer](https://github.com/ra0sms/nanokeyer)).  
 
 **Important sequence!**  
 **First, plug in the CAT interface, then the Winkeyer.** 
@@ -87,10 +87,6 @@ PTT Activation:
 
 Serial port for CAT - 19200 kb/s, 8N1  
 Serial port for WinKeyer - 1200 kb/s, 8N2  
-
-## Files
-
-`install_server.sh` - install all dependencies for server  
 
 ## Installation
 
