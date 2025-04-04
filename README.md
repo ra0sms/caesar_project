@@ -67,8 +67,8 @@ PTT Activation:
 #### Client Operation Instructions
  
 * Open any logging program (e.g., JTDX, DXLog, TR4W).  
-* Select CAT port (mapped to the first USB-UART adapter, e.g., COM3 or /dev/ttyUSB0).  
-* Select Winkeyer port (mapped to the second USB-UART adapter, e.g., COM4 or /dev/ttyUSB1).  
+* Select CAT port (mapped to the first USB-UART adapter, e.g., `COM3` or` /dev/ttyUSB0`).  
+* Select Winkeyer port (mapped to the second USB-UART adapter, e.g., `COM4` or `/dev/ttyUSB1`).  
 * The client automatically exchanges data with the server and transceiver once ports are configured.  
 * No manual intervention is needed for normal operation.  
 * Auto-restart: All services reboot automatically after connection drops (e.g., network timeouts) and system reboots (client or server).  
@@ -78,8 +78,8 @@ PTT Activation:
 ## Ports
 
 * `UDP 5000` - Audio stream from server to client
-* `UDP 5002` - Audio stream from client to server
 * `UDP 5001` - PTT control
+* `UDP 5002` - Audio stream from client to server
 * `UDP 5003` - check connection from server to client
 * `UDP 5004` - check connection from client to server
 * `UDP 3001` - cat control via USB-TTL (`ttyUSB0`)
