@@ -20,7 +20,7 @@ Additionally, the client and server continuously check each other's availability
 
 The transceiver connects to the server via an audio interface (requiring both audio input and output from the transceiver). This can be either a dedicated external interface or a simple sound card. The Orange Pi Zero has a built-in sound card, with audio input and output routed to the pin header (see [Orange Pi Zero pinout](#orange-pi-zero-pinout)):  
 * **LINEOUTR & LINEOUTL** – Audio output  
-* **MIC1P & MIC1N** – Audio input
+* **MIC1P & GND** – Audio input
 
 Additionally, the PTT output of the server must be connected to the PTT input (TX GND) of the transceiver. On the Orange Pi Zero, this is Pin `wPI 12`. The PTT connection can be implemented using a transistor switch or an optocoupler.  
 #### USB Connections
@@ -93,8 +93,8 @@ Serial port for WinKeyer - 1200 kb/s, 8N2
 * First of all you need to create SD-card for your orange pi zero.  
  Here is the [Armbian img](http://ra0sms.com:8000/img/Armbian_community_25.5.0_minimal.tar.gz).  
 You can create it with BalenaEltcher sotware - https://etcher.balena.io/  
-After first Armbian starting (or ssh connection) you need to create user ```pi``` (don't forget about password)  
-* All settings can be done via ```ssh``` connection (putty, for example, if you use Windows OS)  
+After first Armbian starting (or ssh connection via login `root` and pswd `1234`) you need to create user ```pi``` (don't forget about password)  
+* All settings can be done via ```ssh``` connection (putty, for example, if you use Windows OS) using login `pi`    
 * Connect to your orange pi via ```ssh```. You will be in ```HOME``` directory (```/home/pi/```).  
 * Clone ```caesar_project``` from GitHub:  
    ``` bash
