@@ -76,7 +76,6 @@ cp ./audio_server.service /etc/systemd/system/ || { echo -e "${RED}Failed to cop
 systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
 systemctl start audio_server.service || { echo -e "${RED}Failed to start audio_server.service${NC}"; exit 1; }
 systemctl enable audio_server.service || { echo -e "${RED}Failed to enable audio_server.service${NC}"; exit 1; }
-systemctl status audio_server.service || { echo -e "${RED}Failed to get status of audio_server.service${NC}"; exit 1; }
 echo -e "${GREEN}audio_server.service started and enabled${NC}"
 
 echo -e "${GREEN}Config server_ping_responce.service...${NC}"
