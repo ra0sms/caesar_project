@@ -99,7 +99,7 @@ After first Armbian starting (or ssh connection via login `root` and pswd `1234`
 * Clone ```caesar_project``` from GitHub:  
    ``` bash
       sudo apt update
-      sudo apt install git
+      sudo apt install -y git
       git clone https://github.com/ra0sms/caesar_project.git 
       cd caesar_project
    ```  
