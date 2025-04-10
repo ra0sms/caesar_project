@@ -104,7 +104,7 @@ After first Armbian starting (or ssh connection via login `root` and pswd `1234`
       cd caesar_project
    ```  
 * Before the next step you need to connect CAT interface and winkeyer in USB ports server's orange pi zero.  
-* To install server - run ```sudo ./install_server.sh```  
+* To install server - run ```sudo ./install_server.sh``` (it takes about 20 minutes)    
    If you see some errors it can be connect with USB to Serial interfaces.  
    By default the script uses names ```ttyUSB0``` and ```ttyUSB1```. In your case it can be different. So you need to correct ```fix_usb_ports.sh``` script. 
    ```bash
@@ -114,7 +114,7 @@ After first Armbian starting (or ssh connection via login `root` and pswd `1234`
     # put your names instead of ttyUSB0 and ttyUSB1
     sudo ./fix_usb_ports.sh
    ```  
-* To install client - run ```sudo ./install_client.sh```  
+* To install client - run ```sudo ./install_client.sh```  (it takes about 20 minutes)    
 * Then you need to write IP addresses for ```server``` and ```client``` 
    ```bash
       nano ./server_ip.cfg 

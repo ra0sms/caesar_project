@@ -49,6 +49,7 @@ gpio readall || { echo -e "${RED}Failed to run gpio readall${NC}"; exit 1; }
 echo -e "${GREEN}wiringPO installed...${NC}"
 
 echo -e "${GREEN}Config ptt_client.service...${NC}"
+sudo chmod +x ./ptt_client.py
 cp ./ptt_client.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy ptt_client.service${NC}"; exit 1; }
 systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
 systemctl start ptt_client.service || { echo -e "${RED}Failed to start ptt_client.service${NC}"; exit 1; }
