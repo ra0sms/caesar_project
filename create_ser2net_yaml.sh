@@ -16,15 +16,12 @@ CONFIG_TEMPLATE="%YAML 1.1
 # If you find your configuration more useful than this very simple
 # one, please submit it as a bugreport
 
-define: &banner \\r\\nser2net port \\p device \\d [\\B] (Debian GNU/Linux)\\r\\n\\r\\n
-
 connection: &con0096
     accepter: udp,${CURRENT_IP},3001
     enable: on
     options:
-      banner: *banner
       kickolduser: true
-      telnet-brk-on-sync: true
+      telnet-brk-on-sync: false
     connector: serialdev,
               /dev/ttyCAT,
               19200n81,local
@@ -33,9 +30,8 @@ connection: &con1096
     accepter: udp,${CURRENT_IP},3002
     enable: on
     options:
-      banner: *banner
       kickolduser: true
-      telnet-brk-on-sync: true
+      telnet-brk-on-sync: false
     connector: serialdev,
               /dev/ttyWK,
               1200n82,local
