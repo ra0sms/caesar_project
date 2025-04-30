@@ -73,6 +73,13 @@ systemctl start audio_client.service || { echo -e "${RED}Failed to start audio_c
 systemctl enable audio_client.service || { echo -e "${RED}Failed to enable audio_sclient.service${NC}"; exit 1; }
 echo -e "${GREEN}audio_client.service started and enabled${NC}"
 
+echo -e "${GREEN}Config audio_server_on_client.service...${NC}"
+cp ./audio_server_on_client.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy audio_server_on_client.service${NC}"; exit 1; }
+systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
+systemctl start audio_server_on_client.service || { echo -e "${RED}Failed to start audio_server_on_client.service${NC}"; exit 1; }
+systemctl enable audio_server_on_client.service || { echo -e "${RED}Failed to enable audio_server_on_client.service${NC}"; exit 1; }
+echo -e "${GREEN}audio_server_on_client.service started and enabled${NC}"
+
 echo -e "${GREEN}Config client_ping_responce.service...${NC}"
 cp ./client_ping_responce.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy client_ping_responce.service${NC}"; exit 1; }
 systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
