@@ -6,6 +6,7 @@ import wiringpi
 import os
 
 CONN_PIN = 11
+PTT_PIN = 12
 UDP_PORT = 5003
 TIMEOUT = 1.0
 CHECK_INTERVAL = 0.3
@@ -58,6 +59,7 @@ def monitor_ip(ip_address, check_interval):
         else:
             print(f"Client {ip_address} is offline")
             wiringpi.digitalWrite(CONN_PIN, GPIO.LOW)
+            wiringpi.digitalWrite(PTT_PIN, GPIO.LOW)
             need_ser2net_reboot = True
         
         time.sleep(check_interval)
