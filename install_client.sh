@@ -102,4 +102,8 @@ systemctl start client_winkeyer.service || { echo -e "${RED}Failed to start clie
 systemctl enable client_winkeyer.service || { echo -e "${RED}Failed to enable client_winkeyer.service${NC}"; exit 1; }
 echo -e "${GREEN}client_winkeyer.service started and enabled${NC}"
 
+echo -e "${GREEN}Create server_ip.cfg and client_ip.cfg...${NC}"
+touch ./server_ip.cfg || { echo -e "${RED}Failed to create server_ip.cfg${NC}"; exit 1; }
+touch ./client_ip.cfg || { echo -e "${RED}Failed to create client_ip.cfg${NC}"; exit 1; }
+
 echo -e "${GREEN}Done. You need to edit ${RED}client_ip.cfg and server_ip.cfg${GREEN} and reboot (sudo reboot).${NC}"
