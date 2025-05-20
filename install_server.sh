@@ -93,14 +93,9 @@ systemctl enable server_ping_responce.service || { echo -e "${RED}Failed to enab
 systemctl status server_ping_responce.service || { echo -e "${RED}Failed to get status of server_ping_responce.service${NC}"; exit 1; }
 echo -e "${GREEN}server_ping_responce.service started and enabled${NC}"
 
-echo -e "${GREEN}Disable wi-fi module...${NC}"
-modprobe -r xradio_wlan || { echo -e "${RED}Failed to disable wi-fi  module${NC}"; exit 1; }
-echo "blacklist xradio_wlan" | tee -a /etc/modprobe.d/blacklist.conf | { echo -e "${RED}Failed to disable wi-fi  module${NC}"; exit 1; }
-update-initramfs -u || { echo -e "${RED}Failed to update initramfs${NC}"; exit 1; }
-echo -e "${GREEN}wi-fi module disabled${NC}"
-
 echo -e "${GREEN}Create server_ip.cfg and client_ip.cfg...${NC}"
 touch ./server_ip.cfg || { echo -e "${RED}Failed to create server_ip.cfg${NC}"; exit 1; }
 touch ./client_ip.cfg || { echo -e "${RED}Failed to create client_ip.cfg${NC}"; exit 1; }
 
 echo -e "${GREEN}Done. You need to edit ${RED}client_ip.cfg and server_ip.cfg${GREEN} and reboot (sudo reboot).${NC}"
+echo -e "${GREEN}Please, run ${RED}disable_wifi.sh${GREEN} after rebooting. And then reboot again.${NC}"
