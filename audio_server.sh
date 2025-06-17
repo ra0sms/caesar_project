@@ -14,12 +14,12 @@ if [[ -z "$IP_ADDRESS" ]]; then
 fi
 
 # Audio settings
-/usr/bin/amixer -c 0 cset numid=7 5
-/usr/bin/amixer -c 0 cset numid=18 on
-/usr/bin/amixer -c 0 cset numid=8 0
-/usr/bin/amixer -c 0 cset numid=13 off
-/usr/bin/amixer -c 0 cset numid=1 50
-/usr/bin/amixer -c 0 cset numid=3 27
+#/usr/bin/amixer -c 0 cset numid=7 5
+#/usr/bin/amixer -c 0 cset numid=18 on
+#/usr/bin/amixer -c 0 cset numid=8 0
+#/usr/bin/amixer -c 0 cset numid=13 off
+#/usr/bin/amixer -c 0 cset numid=1 50
+#/usr/bin/amixer -c 0 cset numid=3 27
 
 
 # Audio stream
