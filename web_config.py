@@ -1,9 +1,28 @@
 from flask import Flask, render_template_string, request
 import os
+import socket
+import time
+import threading
+from waitress import serve
 
 app = Flask(__name__)
 SPEAKER = 'Speaker'
 MIC = 'numid=8'
+
+# UDP Ping configuration
+UDP_PORT = 5004
+#UDP_PORT = 5003
+TIMEOUT = 1.0
+CHECK_INTERVAL = 0.3
+MAGIC_PHRASE = b"PING_RESPONSE"
+SERVER_IP_FILE = "/home/pi/caesar_project/server_ip.cfg"
+#SERVER_IP_FILE = "/home/pi/caesar_project/client_ip.cfg"
+
+# Global variables for status
+current_rtt = None
+last_update = None
+status_active = False
+status_thread = None
 
 COMMON_STYLE = """
 <style>
@@ -102,12 +121,89 @@ COMMON_STYLE = """
     .service-button:hover {
         background-color: #c0392b;
     }
+    .status-display {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+    }
+    .good {
+        color: #27ae60;
+    }
+    .warning {
+        color: #f39c12;
+    }
+    .bad {
+        color: #e74c3c;
+    }
+    .timestamp {
+        font-size: 14px;
+        color: #7f8c8d;
+        text-align: center;
+    }
 </style>
 """
+
+def start_status_monitoring():
+    global status_active, status_thread
+    if not status_active:
+        status_active = True
+        status_thread = threading.Thread(target=update_status)
+        status_thread.daemon = True
+        status_thread.start()
+
+@app.before_first_request
+def initialize():
+    start_status_monitoring()
+
+
+def get_ip_from_file():
+    try:
+        with open(SERVER_IP_FILE, 'r') as f:
+            ip = f.read().strip()
+            if not ip:
+                raise ValueError("IP address is empty")
+            return ip
+    except:
+        return None
+
+def measure_udp_rtt(ip):
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.settimeout(TIMEOUT)
+            start = time.perf_counter()
+            s.sendto(b"PING_REQUEST", (ip, UDP_PORT))
+            data, addr = s.recvfrom(1024)
+            if data == MAGIC_PHRASE and addr[0] == ip:
+                return (time.perf_counter() - start) * 1000  # ms
+    except:
+        return None
+
+def update_status():
+    global current_rtt, last_update, status_active
+    while status_active:
+        ip = get_ip_from_file()
+        if ip:
+            rtt = measure_udp_rtt(ip)
+            current_rtt = rtt
+            last_update = time.strftime("%H:%M:%S")
+        else:
+            current_rtt = None
+            last_update = "No server IP configured"
+        time.sleep(CHECK_INTERVAL)
+
+def start_status_monitoring():
+    global status_active, status_thread
+    if not status_active:
+        status_active = True
+        status_thread = threading.Thread(target=update_status)
+        status_thread.daemon = True
+        status_thread.start()
 
 def get_volume_template(speaker_volume, mic_capture, active_page='volume'):
     active_volume = "active" if active_page == 'volume' else ""
     active_config = "active" if active_page == 'config' else ""
+    active_status = "active" if active_page == 'status' else ""
     
     return f"""
 <!DOCTYPE html>
@@ -125,6 +221,7 @@ def get_volume_template(speaker_volume, mic_capture, active_page='volume'):
         <div class="nav">
             <a href="/"><button class="nav-button {active_volume}">Volume Control</button></a>
             <a href="/config"><button class="nav-button {active_config}">Configuration</button></a>
+            <a href="/status"><button class="nav-button {active_status}">Status</button></a>
         </div>
         
         <form method="post">
@@ -150,6 +247,7 @@ def get_volume_template(speaker_volume, mic_capture, active_page='volume'):
 def get_config_template(server_config, client_config, active_page='config', message=None):
     active_volume = "active" if active_page == 'volume' else ""
     active_config = "active" if active_page == 'config' else ""
+    active_status = "active" if active_page == 'status' else ""
     
     message_html = f'<div class="value-display" style="color:#27ae60;margin-bottom:20px;">{message}</div>' if message else ''
     
@@ -169,6 +267,7 @@ def get_config_template(server_config, client_config, active_page='config', mess
         <div class="nav">
             <a href="/"><button class="nav-button {active_volume}">Volume Control</button></a>
             <a href="/config"><button class="nav-button {active_config}">Configuration</button></a>
+            <a href="/status"><button class="nav-button {active_status}">Status</button></a>
         </div>
         
         {message_html}
@@ -190,6 +289,52 @@ def get_config_template(server_config, client_config, active_page='config', mess
                 <button type="submit" name="action" value="restart_services" class="service-button">Restart Services</button>
             </div>
         </form>
+    </div>
+</body>
+</html>
+"""
+
+def get_status_template(active_page='status'):
+    active_volume = "active" if active_page == 'volume' else ""
+    active_config = "active" if active_page == 'config' else ""
+    active_status = "active" if active_page == 'status' else ""
+    
+    if current_rtt is None:
+        status_html = '<div class="status-display bad">No connection</div>'
+    else:
+        if current_rtt < 50:
+            status_class = "good"
+        elif current_rtt < 100:
+            status_class = "warning"
+        else:
+            status_class = "bad"
+        status_html = f'<div class="status-display {status_class}">{current_rtt:.1f} ms</div>'
+    
+    return f"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAESAR Status</title>
+    {COMMON_STYLE}
+    <meta http-equiv="refresh" content="1">
+</head>
+<body>
+    <div class="container">
+        <h1>CAESAR Control Panel</h1>
+        
+        <div class="nav">
+            <a href="/"><button class="nav-button {active_volume}">Volume Control</button></a>
+            <a href="/config"><button class="nav-button {active_config}">Configuration</button></a>
+            <a href="/status"><button class="nav-button {active_status}">Status</button></a>
+        </div>
+        
+        <div class="control-group">
+            <h2>Server Connection Status</h2>
+            {status_html}
+            <div class="timestamp">Last update: {last_update}</div>
+        </div>
     </div>
 </body>
 </html>
@@ -271,5 +416,15 @@ def config_editor():
 
     return get_config_template(server_config, client_config, 'config', message)
 
+@app.route("/status")
+def status_page():
+    return get_status_template('status')
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+    # При запуске через Waitress этот код не выполняется, поэтому
+    # используем декоратор @app.before_first_request
+    if os.environ.get('WAITRESS') != '1':
+        start_status_monitoring()
+        app.run(host="0.0.0.0", port=8080)
+    else:
+        serve(app, host="0.0.0.0", port=8080)

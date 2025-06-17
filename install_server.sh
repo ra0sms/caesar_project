@@ -20,7 +20,7 @@ echo -e "${GREEN}Updating...${NC}"
 apt-get update || { echo -e "${RED}Failed to update packages${NC}"; exit 1; }
 
 echo -e "${GREEN}Installing new packages...${NC}"
-apt-get install -y git make gcc python3 python3-pip ser2net swig python3-dev python3-setuptools mc socat || { echo -e "${RED}Failed to install basic packages${NC}"; exit 1; }
+apt-get install -y git make gcc python3 python3-pip ser2net swig python3-dev python3-setuptools mc socat avahi-daemon python3-flask python3-waitress || { echo -e "${RED}Failed to install basic packages${NC}"; exit 1; }
 apt-get install -y gstreamer1.0-plugins-base gstreamer1.0-alsa gstreamer1.0-tools gstreamer1.0-plugins-good || { echo -e "${RED}Failed to install gstreamer good packages${NC}"; exit 1; }
 apt-get install -y gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav || { echo -e "${RED}Failed to install gstreamer other packages${NC}"; exit 1; }
 
