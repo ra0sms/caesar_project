@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string, request
+from flask import Flask, render_template_string, request, jsonify
 import os
 import socket
 import time
@@ -23,6 +23,7 @@ current_rtt = None
 last_update = None
 status_active = False
 status_thread = None
+status_lock = threading.Lock()
 
 COMMON_STYLE = """
 <style>
@@ -294,21 +295,43 @@ def get_config_template(server_config, client_config, active_page='config', mess
 </html>
 """
 
+def update_status():
+    global current_rtt, last_update, status_active
+    while status_active:
+        ip = get_ip_from_file()
+        if ip:
+            rtt = measure_udp_rtt(ip)
+            with status_lock:
+                current_rtt = rtt if rtt is not None else current_rtt
+                last_update = time.strftime("%H:%M:%S")
+        time.sleep(CHECK_INTERVAL)
+
+def start_status_monitoring():
+    global status_active, status_thread
+    if not status_active:
+        status_active = True
+        status_thread = threading.Thread(target=update_status)
+        status_thread.daemon = True
+        status_thread.start()
+
+@app.before_request
+def initialize():
+    start_status_monitoring()
+
+@app.route('/get_status')
+def get_status():
+    with status_lock:
+        status = 'good' if current_rtt < 50 else 'warning' if current_rtt < 100 else 'bad' if current_rtt is not None else 'unknown'
+        return jsonify({
+            'rtt': current_rtt,
+            'timestamp': last_update,
+            'status': status
+        })
+
 def get_status_template(active_page='status'):
     active_volume = "active" if active_page == 'volume' else ""
     active_config = "active" if active_page == 'config' else ""
     active_status = "active" if active_page == 'status' else ""
-    
-    if current_rtt is None:
-        status_html = '<div class="status-display bad">No connection</div>'
-    else:
-        if current_rtt < 50:
-            status_class = "good"
-        elif current_rtt < 100:
-            status_class = "warning"
-        else:
-            status_class = "bad"
-        status_html = f'<div class="status-display {status_class}">{current_rtt:.1f} ms</div>'
     
     return f"""
 <!DOCTYPE html>
@@ -318,7 +341,35 @@ def get_status_template(active_page='status'):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAESAR Status</title>
     {COMMON_STYLE}
-    <meta http-equiv="refresh" content="1">
+    <script>
+        function updateStatus() {{
+            fetch('/get_status')
+                .then(response => response.json())
+                .then(data => {{
+                    const statusElement = document.getElementById('connection-status');
+                    const valueElement = document.getElementById('rtt-value');
+                    const timeElement = document.getElementById('timestamp');
+                    
+                    if (data.rtt !== null) {{
+                        valueElement.textContent = data.rtt.toFixed(1) + ' ms';
+                        statusElement.className = 'status-display ' + data.status;
+                    }} else {{
+                        valueElement.textContent = '--';
+                        statusElement.className = 'status-display bad';
+                    }}
+                    timeElement.textContent = 'Last update: ' + data.timestamp;
+                    
+                    setTimeout(updateStatus, 1000); // Обновляем каждую секунду
+                }})
+                .catch(error => {{
+                    console.error('Error fetching status:', error);
+                    setTimeout(updateStatus, 2000); // Повторяем через 2 сек при ошибке
+                }});
+        }}
+        
+        // Запускаем обновление при загрузке страницы
+        document.addEventListener('DOMContentLoaded', updateStatus);
+    </script>
 </head>
 <body>
     <div class="container">
@@ -332,8 +383,10 @@ def get_status_template(active_page='status'):
         
         <div class="control-group">
             <h2>Server Connection Status</h2>
-            {status_html}
-            <div class="timestamp">Last update: {last_update}</div>
+            <div id="connection-status" class="status-display">
+                <span id="rtt-value">--</span>
+            </div>
+            <div id="timestamp" class="timestamp">Last update: {last_update}</div>
         </div>
     </div>
 </body>
