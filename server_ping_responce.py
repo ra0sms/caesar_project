@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import socket
 
-UDP_PORT = 5004
+UDP_PORT = 5002
 RESPONSE_PHRASE = b"PING_RESPONSE"
 
 def run_udp_responder():

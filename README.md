@@ -77,11 +77,9 @@ PTT Activation:
 
 ## Ports
 
-* `UDP 5000` - Audio stream from server to client
+* `UDP 5000` - Audio stream
 * `UDP 5001` - PTT control
-* `UDP 5002` - Audio stream from client to server
-* `UDP 5003` - check connection from server to client
-* `UDP 5004` - check connection from client to server
+* `UDP 5002` - Ping between server and client
 * `UDP 3001` - cat control via USB-TTL (`ttyUSB0`)
 * `UDP 3002` - WinKeyer control via USB-TTL (`ttyUSB1`)  
 

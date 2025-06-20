@@ -10,8 +10,7 @@ SPEAKER = 'Speaker'
 MIC = 'numid=8'
 
 # UDP Ping configuration
-UDP_PORT = 5004
-#UDP_PORT = 5003
+UDP_PORT = 5002
 TIMEOUT = 1.0
 CHECK_INTERVAL = 0.3
 MAGIC_PHRASE = b"PING_RESPONSE"

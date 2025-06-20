@@ -6,7 +6,7 @@ import wiringpi
 import os
 
 CONN_PIN = 11
-UDP_PORT = 5004
+UDP_PORT = 5002
 TIMEOUT = 1.0
 CHECK_INTERVAL = 0.3
 MAGIC_PHRASE = b"PING_RESPONSE"
