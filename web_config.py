@@ -2,6 +2,8 @@ from flask import Flask, render_template_string, request, jsonify
 import os
 import socket
 import time
+import fcntl
+import struct
 import threading
 from waitress import serve
 
@@ -143,6 +145,26 @@ COMMON_STYLE = """
     }
 </style>
 """
+
+def get_local_ip():
+    """Get IPv4 address for eth0 interface"""
+    try:
+        # Create a raw socket to get interface info
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        
+        # Get IP address for eth0
+        ip = socket.inet_ntoa(fcntl.ioctl(
+            s.fileno(),
+            0x8915,  # SIOCGIFADDR
+            struct.pack('256s', b'end0')
+        )[20:24])
+        
+        return ip if ip != '0.0.0.0' else "Not available"
+    except IOError:  # No eth0 interface
+        return "Not available"
+    except Exception as e:
+        print(f"Error getting eth0 IP: {e}")
+        return "Error"
 
 def start_status_monitoring():
     global status_active, status_thread
@@ -332,6 +354,9 @@ def get_status_template(active_page='status'):
     active_config = "active" if active_page == 'config' else ""
     active_status = "active" if active_page == 'status' else ""
     
+    local_ip = get_local_ip()
+    server_ip = get_ip_from_file() or "Not configured"
+    
     return f"""
 <!DOCTYPE html>
 <html lang="en">
@@ -356,17 +381,16 @@ def get_status_template(active_page='status'):
                         valueElement.textContent = '--';
                         statusElement.className = 'status-display bad';
                     }}
-                    timeElement.textContent = 'Last update: ' + data.timestamp;
+                    timeElement.textContent = 'Last updated: ' + data.timestamp;
                     
-                    setTimeout(updateStatus, 1000); // Обновляем каждую секунду
+                    setTimeout(updateStatus, 1000);
                 }})
                 .catch(error => {{
-                    console.error('Error fetching status:', error);
-                    setTimeout(updateStatus, 2000); // Повторяем через 2 сек при ошибке
+                    console.error('Status update error:', error);
+                    setTimeout(updateStatus, 2000);
                 }});
         }}
         
-        // Запускаем обновление при загрузке страницы
         document.addEventListener('DOMContentLoaded', updateStatus);
     </script>
 </head>
@@ -375,17 +399,21 @@ def get_status_template(active_page='status'):
         <h1>CAESAR Control Panel</h1>
         
         <div class="nav">
-            <a href="/"><button class="nav-button {active_volume}">Volume Control</button></a>
+            <a href="/"><button class="nav-button {active_volume}">Volume</button></a>
             <a href="/config"><button class="nav-button {active_config}">Configuration</button></a>
             <a href="/status"><button class="nav-button {active_status}">Status</button></a>
         </div>
         
         <div class="control-group">
-            <h2>Server Connection Status</h2>
+            <h2>Network Information</h2>
+            <div class="value-display">
+                <strong>Local IP:</strong> {local_ip}
+            </div>
+            <h2>Connection Status</h2>
             <div id="connection-status" class="status-display">
                 <span id="rtt-value">--</span>
             </div>
-            <div id="timestamp" class="timestamp">Last update: {last_update}</div>
+            <div id="timestamp" class="timestamp">Last updated: {last_update}</div>
         </div>
     </div>
 </body>
