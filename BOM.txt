@@ -1,0 +1,11 @@
+Orange pi Zero
+microSD 8Gb
+PAM8403
+DC-DC converter (5V 2A)
+Potentiometr 5kOhm
+RCA connectors
+5.5*2.1 mm
+3.5 audio female
+USB audio cards
+
+
