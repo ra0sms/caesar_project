@@ -1,5 +1,6 @@
 Orange pi Zero
 microSD 8Gb
+Radiators
 PAM8403
 DC-DC converter (5V 2A)
 Potentiometr 5kOhm
