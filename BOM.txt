@@ -1,12 +1,19 @@
-Orange pi Zero
-microSD 8Gb
-Radiators
-PAM8403
-DC-DC converter (5V 2A)
-Potentiometr 5kOhm
-RCA connectors
-5.5*2.1 mm
-3.5 audio female
-USB audio cards
+Orange pi Zero - 2000
+microSD 8Gb - 300
+Radiators - 200
+DC-DC converter (5V 2A) - 300
+5.5*2.1 mm - 20
+3.5 audio female - 50
+USB audio cards - 200
+Корпус - 300 руб
+Итого: 3300 руб
+Комплект из сервера и клиента - 6600 руб.
+
+
+Orange pi zero 512 Mb - 20шт
+DC-DC преобразователь XL4015 - 20шт
+MicroSD карта 8Gb - 20шт
+RCA female позолоченные - 20шт
+Корпус L-KLS24-PWM115 - 20шт
 
 
