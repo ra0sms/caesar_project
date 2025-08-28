@@ -29,6 +29,10 @@ apt-get autoremove -y || { echo -e "${RED}Failed to autoremove packages${NC}"; e
 apt-get autoclean -y || { echo -e "${RED}Failed to autoclean packages${NC}"; exit 1; }
 usermod -a -G dialout pi || { echo -e "${RED}Failed to modify user groups${NC}"; exit 1; }
 
+echo -e "${GREEN}Set hostname...${NC}"
+hostnamectl set-hostname caesar-client { echo -e "${RED}Failed to set hostname${NC}"; exit 1; }
+echo -e "${GREEN}Hostname changed...${NC}"
+
 echo -e "${GREEN}Config hardware...${NC}"
 rm -f /boot/armbianEnv.txt || { echo -e "${RED}Failed to remove old armbianEnv.txt${NC}"; exit 1; }
 cp ./armbianEnv_lite.txt /boot/armbianEnv.txt || { echo -e "${RED}Failed to copy armbianEnv.txt${NC}"; exit 1; }
