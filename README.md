@@ -89,7 +89,7 @@ Serial port for WinKeyer - 1200 kb/s, 8N2
 ## Installation
 
 * First of all you need to create SD-card for your orange pi zero.  
- Here is the [Armbian img](http://ra0sms.com:8000/img/Armbian_community_25.5.0_minimal.tar.gz).  
+ Here is the [Armbian img](http://nc.ra0sms.com:8000/img/Armbian_community_25.5.0_minimal.tar.gz).  
 You can create it with BalenaEltcher sotware - https://etcher.balena.io/  
 After first Armbian starting (or ssh connection via login `root` and pswd `1234`) you need to create user ```pi``` (don't forget about password)  
 * All settings can be done via ```ssh``` connection (putty, for example, if you use Windows OS) using login `pi`    
