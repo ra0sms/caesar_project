@@ -30,7 +30,7 @@ apt-get autoclean -y || { echo -e "${RED}Failed to autoclean packages${NC}"; exi
 usermod -a -G dialout pi || { echo -e "${RED}Failed to modify user groups${NC}"; exit 1; }
 
 echo -e "${GREEN}Set hostname...${NC}"
-hostnamectl set-hostname caesar-client { echo -e "${RED}Failed to set hostname${NC}"; exit 1; }
+hostnamectl set-hostname caesar-client || { echo -e "${RED}Failed to set hostname${NC}"; exit 1; }
 echo -e "${GREEN}Hostname changed...${NC}"
 
 echo -e "${GREEN}Config hardware...${NC}"
