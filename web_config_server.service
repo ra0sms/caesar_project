@@ -1,0 +1,16 @@
+[Unit]  
+Description=Web configuration service  
+After=multi-user.target  
+  
+[Service]  
+User=root 
+Group=root  
+Type=simple  
+  
+WorkingDirectory=/home/pi/caesar_project
+ExecStart=/usr/bin/waitress-serve --listen=0.0.0.0:8080 web_config_server:app
+Restart=always  
+RestartSec=5  
+  
+[Install]  
+WantedBy=multi-user.target

@@ -17,7 +17,6 @@ TIMEOUT = 1.0
 CHECK_INTERVAL = 0.3
 MAGIC_PHRASE = b"PING_RESPONSE"
 SERVER_IP_FILE = "/home/pi/caesar_project/server_ip.cfg"
-#SERVER_IP_FILE = "/home/pi/caesar_project/client_ip.cfg"
 
 # Global variables for status
 current_rtt = None

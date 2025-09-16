@@ -3,8 +3,8 @@ bootlogo=false
 console=both
 disp_mode=1920x1080p60
 overlay_prefix=sun8i-h3
-overlays=usbhost0 w1-gpio
+overlays=usbhost0 usbhost1 usbhost2 usbhost3 w1-gpio
 rootdev=UUID=2d0a07fc-a35a-442d-a158-00c1905aa365
 rootfstype=ext4
-overlays=usbhost0 w1-gpio
+overlays=usbhost0 usbhost1 usbhost2 usbhost3 w1-gpio
 usbstoragequirks=0x2537:0x1066:u,0x2537:0x1068:u
