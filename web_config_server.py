@@ -9,10 +9,10 @@ from waitress import serve
 
 
 app = Flask(__name__)
-SPEAKER = 'numid=3'
+SPEAKER = 'Speaker'
 MIC = 'numid=8'
 
-UDP_PORT = 5003
+UDP_PORT = 5002
 TIMEOUT = 1.0
 CHECK_INTERVAL = 0.3
 MAGIC_PHRASE = b"PING_RESPONSE"
@@ -247,14 +247,14 @@ def get_volume_template(speaker_volume, mic_capture, active_page='volume'):
         
         <form method="post">
             <div class="control-group">
-                <h2>Speaker Volume</h2>
+                <h2>Audio OUT</h2>
                 <input type="range" name="speaker_volume" min="0" max="100" value="{speaker_volume}">
                 <div class="value-display">{speaker_volume}%</div>
                 <button type="submit" name="action" value="set_speaker">Set Speaker</button>
             </div>
             
             <div class="control-group">
-                <h2>Microphone Level</h2>
+                <h2>Audio IN</h2>
                 <input type="range" name="mic_capture" min="0" max="100" value="{mic_capture}">
                 <div class="value-display">{mic_capture}%</div>
                 <button type="submit" name="action" value="set_mic">Set Capture</button>
@@ -423,15 +423,9 @@ def percent_to_alsa(vol_percent):
     """Convert percentage (0-100) to ALSA value (0-16)"""
     return min(16, max(0, round(float(vol_percent) * 16 / 100)))
 
-def percent_to_alsa_speaker(vol_percent):
-    return min(31, max(0, round(float(vol_percent) * 31 / 100)))
-
 def alsa_to_percent(alsa_value):
     """Convert ALSA value (0-16) to percentage (0-100)"""
     return min(100, max(0, round(float(alsa_value) * 100 / 16)))
-
-def alsa_to_percent_speaker(alsa_value):
-    return min(100, max(0, round(float(alsa_value) * 100 / 31)))
 
 def get_mic_value():
     """Get current mic capture value from ALSA"""
@@ -443,9 +437,9 @@ def get_mic_value():
 def get_speaker_volume():
     """Get current speaker volume from ALSA"""
     raw = os.popen(
-        f"amixer cget {SPEAKER} | grep -oP '(?<=values=)[0-9]+' | tail -1"
+        f"amixer get {SPEAKER} | grep -o '[0-9]*%' | head -1"
     ).read().strip()
-    return int(raw) if raw.isdigit() else "50"    
+    return raw[:-1] if raw else "50"    
 
 def read_config_file(path):
     """Read configuration file content"""
@@ -463,7 +457,6 @@ def write_config_file(path, content):
 @app.route("/", methods=["GET", "POST"])
 def index():
     speaker_vol = get_speaker_volume()
-    speaker_vol = alsa_to_percent_speaker(speaker_vol)
     mic_alsa = get_mic_value()
     mic_capture_display = alsa_to_percent(mic_alsa)
 
@@ -471,8 +464,7 @@ def index():
         action = request.form.get("action")
         if action == "set_speaker":
             speaker_vol = request.form.get("speaker_volume", speaker_vol)
-            alsa_value_speaker = percent_to_alsa_speaker(speaker_vol)
-            os.system(f"amixer cset {SPEAKER} {alsa_value_speaker}")
+            os.system(f"amixer set {SPEAKER} {speaker_vol}%")
         elif action == "set_mic":
             mic_capture_display = request.form.get("mic_capture", mic_capture_display)
             alsa_value = percent_to_alsa(mic_capture_display)
