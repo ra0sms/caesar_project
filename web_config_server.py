@@ -465,10 +465,12 @@ def index():
         if action == "set_speaker":
             speaker_vol = request.form.get("speaker_volume", speaker_vol)
             os.system(f"amixer set {SPEAKER} {speaker_vol}%")
+            os.system("sudo /usr/sbin/alsactl -f /var/lib/alsa/asound.state store")
         elif action == "set_mic":
             mic_capture_display = request.form.get("mic_capture", mic_capture_display)
             alsa_value = percent_to_alsa(mic_capture_display)
             os.system(f"amixer cset {MIC} {alsa_value}")
+            os.system("sudo /usr/sbin/alsactl -f /var/lib/alsa/asound.state store")
             mic_alsa = alsa_value
 
     return get_volume_template(speaker_vol, mic_capture_display, 'volume')

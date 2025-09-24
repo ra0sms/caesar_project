@@ -1,0 +1,14 @@
+[Unit]
+Description=Restore ALSA settings at boot
+After=sound.target
+After=alsa-state.service
+Wants=alsa-state.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/alsactl -F -f /var/lib/alsa/asound.state restore
+RemainAfterExit=yes
+User=root
+
+[Install]
+WantedBy=multi-user.target

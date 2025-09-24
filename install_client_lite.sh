@@ -96,7 +96,15 @@ update-initramfs -u || { echo -e "${RED}Failed to update initramfs${NC}"; exit 1
 echo -e "${GREEN}wi-fi module disabled${NC}"
 
 echo -e "${GREEN}Config restart_services_on_client...${NC}"
-echo "username ALL=(ALL) NOPASSWD: /home/pi/caesar_project/restart_services_on_client.sh" | tee -a /etc/sudoers || { echo -e "${RED}Failed to config sudoers${NC}"; exit 1; }
+echo "pi ALL=(ALL) NOPASSWD: /home/pi/caesar_project/restart_services_on_client.sh" | tee -a /etc/sudoers || { echo -e "${RED}Failed to config sudoers${NC}"; exit 1; }
+
+echo -e "${GREEN}Config alsa_restore.service...${NC}"
+cp ./alsa_restore.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy alsa_restore.service${NC}"; exit 1; }
+systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
+systemctl start alsa_restore.service || { echo -e "${RED}Failed to start alsa_restore.service${NC}"; exit 1; }
+systemctl enable alsa_restore.service || { echo -e "${RED}Failed to enable alsa_restore.service${NC}"; exit 1; }
+systemctl status alsa_restore.service || { echo -e "${RED}Failed to get status of alsa_restore.service${NC}"; exit 1; }
+echo -e "${GREEN}alsa_restore.service started and enabled${NC}"
 
 echo -e "${GREEN}Config web_config.service...${NC}"
 cp ./web_config.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy web_config.service${NC}"; exit 1; }
