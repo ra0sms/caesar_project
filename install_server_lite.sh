@@ -37,6 +37,11 @@ echo -e "${GREEN}Config hardware...${NC}"
 rm -f /boot/armbianEnv.txt || { echo -e "${RED}Failed to remove old armbianEnv.txt${NC}"; exit 1; }
 cp ./armbianEnv_lite.txt /boot/armbianEnv.txt || { echo -e "${RED}Failed to copy armbianEnv.txt${NC}"; exit 1; }
 
+echo -e "${GREEN}Create server_ip.cfg and client_ip.cfg...${NC}"
+echo "10.0.0.2" > ./server_ip.cfg || { echo -e "${RED}Failed to create server_ip.cfg${NC}"; exit 1; }
+echo "10.0.0.3" > ./client_ip.cfg || { echo -e "${RED}Failed to create client_ip.cfg${NC}"; exit 1; }
+echo -e "${GREEN}IP addresses successfully written to config files${NC}"
+
 echo -e "${GREEN}Installing wiringPO...${NC}"
 cd wiringOP/ || { echo -e "${RED}Failed to enter wiringOP directory${NC}"; exit 1; }
 ./build clean || { echo -e "${RED}Failed to clean wiringOP${NC}"; exit 1; }
@@ -100,10 +105,6 @@ systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}
 systemctl start web_config_server.service || { echo -e "${RED}Failed to start web_config.service${NC}"; exit 1; }
 systemctl enable web_config_server.service || { echo -e "${RED}Failed to enable web_config.service${NC}"; exit 1; }
 echo -e "${GREEN}web_config_server.service started and enabled${NC}"
-
-echo -e "${GREEN}Create server_ip.cfg and client_ip.cfg...${NC}"
-touch ./server_ip.cfg || { echo -e "${RED}Failed to create server_ip.cfg${NC}"; exit 1; }
-touch ./client_ip.cfg || { echo -e "${RED}Failed to create client_ip.cfg${NC}"; exit 1; }
 
 echo -e "${GREEN}Config alsa_restore.service...${NC}"
 cp ./alsa_restore.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy alsa_restore.service${NC}"; exit 1; }
