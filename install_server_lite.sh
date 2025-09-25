@@ -55,7 +55,6 @@ cp ./ptt_server.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy 
 systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
 systemctl start ptt_server.service || { echo -e "${RED}Failed to start ptt_server.service${NC}"; exit 1; }
 systemctl enable ptt_server.service || { echo -e "${RED}Failed to enable ptt_server.service${NC}"; exit 1; }
-systemctl status ptt_server.service || { echo -e "${RED}Failed to get status of ptt_server.service${NC}"; exit 1; }
 echo -e "${GREEN}ptt_server.service started and enabled${NC}"
 
 echo -e "${GREEN}Config check_client.service...${NC}"
@@ -63,7 +62,6 @@ cp ./check_client.service /etc/systemd/system/ || { echo -e "${RED}Failed to cop
 systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
 systemctl start check_client.service || { echo -e "${RED}Failed to start check_client.service${NC}"; exit 1; }
 systemctl enable check_client.service || { echo -e "${RED}Failed to enable check_client.service${NC}"; exit 1; }
-systemctl status check_client.service || { echo -e "${RED}Failed to get status of check_client.service${NC}"; exit 1; }
 echo -e "${GREEN}check_client.service started and enabled${NC}"
 
 echo -e "${GREEN}Config audio_server.service...${NC}"
@@ -85,7 +83,6 @@ cp ./server_ping_responce.service /etc/systemd/system/ || { echo -e "${RED}Faile
 systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
 systemctl start server_ping_responce.service || { echo -e "${RED}Failed to start server_ping_responce.service${NC}"; exit 1; }
 systemctl enable server_ping_responce.service || { echo -e "${RED}Failed to enable server_ping_responce.service${NC}"; exit 1; }
-systemctl status server_ping_responce.service || { echo -e "${RED}Failed to get status of server_ping_responce.service${NC}"; exit 1; }
 echo -e "${GREEN}server_ping_responce.service started and enabled${NC}"
 
 echo -e "${GREEN}Disable wi-fi module...${NC}"
@@ -102,7 +99,6 @@ cp ./web_config_server.service /etc/systemd/system/ || { echo -e "${RED}Failed t
 systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
 systemctl start web_config_server.service || { echo -e "${RED}Failed to start web_config.service${NC}"; exit 1; }
 systemctl enable web_config_server.service || { echo -e "${RED}Failed to enable web_config.service${NC}"; exit 1; }
-systemctl status web_config_server.service || { echo -e "${RED}Failed to get status of web_config.service${NC}"; exit 1; }
 echo -e "${GREEN}web_config_server.service started and enabled${NC}"
 
 echo -e "${GREEN}Create server_ip.cfg and client_ip.cfg...${NC}"
@@ -112,8 +108,8 @@ touch ./client_ip.cfg || { echo -e "${RED}Failed to create client_ip.cfg${NC}"; 
 echo -e "${GREEN}Config alsa_restore.service...${NC}"
 cp ./alsa_restore.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy alsa_restore.service${NC}"; exit 1; }
 systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
-systemctl start alsa_restore.service || { echo -e "${RED}Failed to start alsa_restore.service${NC}"; exit 1; }
-systemctl enable alsa_restore.service || { echo -e "${RED}Failed to enable alsa_restore.service${NC}"; exit 1; }
+systemctl start alsa_restore.service
+systemctl enable alsa_restore.service
 echo -e "${GREEN}alsa_restore.service started and enabled${NC}"
 
 echo -e "${GREEN}Done. You need to edit ${RED}client_ip.cfg and server_ip.cfg${GREEN} and reboot (sudo reboot).${NC}"
