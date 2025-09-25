@@ -97,14 +97,6 @@ echo -e "${GREEN}wi-fi module disabled${NC}"
 echo -e "${GREEN}Config restart_services_on_client...${NC}"
 echo "pi ALL=(ALL) NOPASSWD: /home/pi/caesar_project/restart_services_on_server.sh" | tee -a /etc/sudoers || { echo -e "${RED}Failed to config sudoers${NC}"; exit 1; }
 
-echo -e "${GREEN}Config alsa_restore.service...${NC}"
-cp ./alsa_restore.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy alsa_restore.service${NC}"; exit 1; }
-systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
-systemctl start alsa_restore.service || { echo -e "${RED}Failed to start alsa_restore.service${NC}"; exit 1; }
-systemctl enable alsa_restore.service || { echo -e "${RED}Failed to enable alsa_restore.service${NC}"; exit 1; }
-systemctl status alsa_restore.service || { echo -e "${RED}Failed to get status of alsa_restore.service${NC}"; exit 1; }
-echo -e "${GREEN}alsa_restore.service started and enabled${NC}"
-
 echo -e "${GREEN}Config web_config_server.service...${NC}"
 cp ./web_config_server.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy web_config.service${NC}"; exit 1; }
 systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
@@ -116,5 +108,12 @@ echo -e "${GREEN}web_config_server.service started and enabled${NC}"
 echo -e "${GREEN}Create server_ip.cfg and client_ip.cfg...${NC}"
 touch ./server_ip.cfg || { echo -e "${RED}Failed to create server_ip.cfg${NC}"; exit 1; }
 touch ./client_ip.cfg || { echo -e "${RED}Failed to create client_ip.cfg${NC}"; exit 1; }
+
+echo -e "${GREEN}Config alsa_restore.service...${NC}"
+cp ./alsa_restore.service /etc/systemd/system/ || { echo -e "${RED}Failed to copy alsa_restore.service${NC}"; exit 1; }
+systemctl daemon-reload || { echo -e "${RED}Failed to reload systemd daemon${NC}"; exit 1; }
+systemctl start alsa_restore.service || { echo -e "${RED}Failed to start alsa_restore.service${NC}"; exit 1; }
+systemctl enable alsa_restore.service || { echo -e "${RED}Failed to enable alsa_restore.service${NC}"; exit 1; }
+echo -e "${GREEN}alsa_restore.service started and enabled${NC}"
 
 echo -e "${GREEN}Done. You need to edit ${RED}client_ip.cfg and server_ip.cfg${GREEN} and reboot (sudo reboot).${NC}"
