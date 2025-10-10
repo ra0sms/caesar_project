@@ -9,6 +9,7 @@ from waitress import serve
 
 
 app = Flask(__name__)
+# use amixer -c 0 controls to find the correct control numbers
 SPEAKER = 'Speaker'
 MIC = 'numid=8'
 
